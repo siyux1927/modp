@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mopd"
+version = "0.1.0"
+description = "Multi-Teacher On-Policy Distillation: a minimal, sandbox-free reproduction"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.6",
+    "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+# Everything needed to actually run the 3-stage pipeline on a GPU box.
+pipeline = [
+    "transformers>=4.49",
+    "datasets>=3.2",
+    "pyarrow>=18.0",
+    "accelerate>=1.3",
+    "hydra-core>=1.3",
+    "vllm>=0.8",
+]
+# Verifiers. All three are pure-Python: no subprocess, no docker, no sandbox.
+verify = [
+    "math-verify>=0.7",
+    "bfcl-eval>=2024.0",
+]
+eval = ["lm-eval[vllm]>=0.4.7"]
+track = ["wandb>=0.19"]
+dev = ["pytest>=8.0", "ruff>=0.9"]
+
+[project.scripts]
+mopd = "mopd.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mopd"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "ISC", "S", "RUF", "PL"]
+ignore = [
+    "PLR0913",  # research configs legitimately take many parameters
+    "PLR2004",  # magic numbers are the point in numerical tests
+    "PLR0912",  # branchy dispatch in route()/parse_calls() reads better flat
+    "PLR0915",
+    "C408",     # dict(...) keeps the experiment matrix in configs/arms.py aligned
+    "RUF059",   # unused unpacked values in test fixtures
+    "PLC0415",  # deferred imports are the design: no stage pays for another's deps
+    "PLR0917",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]  # assert is the point

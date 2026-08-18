@@ -1,0 +1,24 @@
+{
+  "student": "Qwen/Qwen3-1.7B-Base",
+  "beta": 0.5,
+  "fusion_mode": "arithmetic",
+  "failure_aware": false,
+  "lr": 1e-05,
+  "epochs": 1,
+  "batch_size": 4,
+  "grad_accum": 4,
+  "max_len": 1280,
+  "gradient_checkpointing": true,
+  "seed": 0,
+  "rollout_path": "data/offpolicy/rollout.parquet",
+  "teacher_paths": {
+    "math": "data/offpolicy/teacher-math.parquet",
+    "instruct": "data/offpolicy/teacher-instruct.parquet",
+    "general": "data/offpolicy/teacher-general.parquet"
+  },
+  "router": "uniform",
+  "out_dir": "runs/a1_offpolicy_uniform",
+  "tags": [
+    "a1_offpolicy_uniform"
+  ]
+}

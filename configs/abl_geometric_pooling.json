@@ -1,0 +1,26 @@
+{
+  "student": "Qwen/Qwen3-1.7B-Base",
+  "beta": 0.5,
+  "fusion_mode": "geometric",
+  "failure_aware": true,
+  "lr": 1e-05,
+  "epochs": 1,
+  "batch_size": 4,
+  "grad_accum": 4,
+  "max_len": 1280,
+  "gradient_checkpointing": true,
+  "seed": 0,
+  "rollout_path": "data/onpolicy/rollout.parquet",
+  "teacher_paths": {
+    "math": "data/onpolicy/teacher-math.parquet",
+    "instruct": "data/onpolicy/teacher-instruct.parquet",
+    "general": "data/onpolicy/teacher-general.parquet"
+  },
+  "router": "confidence",
+  "router_temperature": 0.5,
+  "out_dir": "runs/abl_geometric_pooling",
+  "tags": [
+    "abl_geometric_pooling",
+    "ablation"
+  ]
+}

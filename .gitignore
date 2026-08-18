@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Pipeline outputs. Anchored with a leading slash: a bare `data/` would also match
+# src/mopd/data/, silently dropping the source package from the repo.
+/data/
+/runs/
+/results/
+/wandb/
+configs/smoke.json
